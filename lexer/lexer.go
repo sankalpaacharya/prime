@@ -15,7 +15,7 @@ func (l *Lexer) readChar() {
 	if l.nextPosition >= len(l.input) {
 		l.char = 0
 	} else {
-		l.char = l.input[l.position]
+		l.char = l.input[l.nextPosition]
 	}
 	l.position = l.nextPosition
 	l.nextPosition += 1
@@ -48,16 +48,16 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.DIVISION, '/')
 
 	case ')':
-		tok = newToken(token.LPAREN, ')')
+		tok = newToken(token.RPAREN, ')')
 
 	case '(':
-		tok = newToken(token.RPAREN, '(')
+		tok = newToken(token.LPAREN, '(')
 
 	case '}':
-		tok = newToken(token.LBRAC, '}')
+		tok = newToken(token.RBRAC, '}')
 
 	case '{':
-		tok = newToken(token.RBRAC, '{')
+		tok = newToken(token.LBRAC, '{')
 
 	case ';':
 		tok = newToken(token.SEMICOLON, ';')
