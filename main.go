@@ -1,7 +1,16 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"prime/lexer"
+)
 
 func main() {
-	fmt.Println("hello world")
+	input := "+;,)(}{"
+	cal := lexer.New(input)
+
+	fmt.Println(cal.NextToken())
+	cal.NextToken()
+	fmt.Println(cal.NextToken())
+
 }

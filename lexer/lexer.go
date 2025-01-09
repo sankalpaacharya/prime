@@ -21,7 +21,7 @@ func (l *Lexer) readChar() {
 	l.nextPosition += 1
 }
 
-func Next(input string) *Lexer {
+func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
 	return l
@@ -54,7 +54,7 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.RPAREN, '(')
 
 	case '}':
-		tok = newToken(token.LBRAC, '=')
+		tok = newToken(token.LBRAC, '}')
 
 	case '{':
 		tok = newToken(token.RBRAC, '{')
@@ -64,8 +64,13 @@ func (l *Lexer) NextToken() token.Token {
 
 	case ',':
 		tok = newToken(token.COMMA, ',')
+	case 0:
+		tok.Literal = ""
+		tok.Type = token.EOF
 
 	}
+
+	l.readChar()
 	return tok
 
 }
