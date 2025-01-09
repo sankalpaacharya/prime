@@ -11,6 +11,7 @@ type Lexer struct {
 	char         byte
 }
 
+// read a character from input and move the pointer forward
 func (l *Lexer) readChar() {
 	if l.nextPosition >= len(l.input) {
 		l.char = 0
@@ -21,6 +22,7 @@ func (l *Lexer) readChar() {
 	l.nextPosition += 1
 }
 
+// just to initialize Lexer struct
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
 	l.readChar()
@@ -67,6 +69,13 @@ func (l *Lexer) NextToken() token.Token {
 	case 0:
 		tok.Literal = ""
 		tok.Type = token.EOF
+	default:
+		if isLetter(l.char) {
+			tok.Literal = l.readIdentifier()
+			return tok
+		} else {
+			tok = newToken(token.ILLEGAL, l.char)
+		}
 
 	}
 
@@ -75,6 +84,20 @@ func (l *Lexer) NextToken() token.Token {
 
 }
 
+func (l *Lexer) readIdentifier() string {
+	pos := l.position
+	for isLetter(l.char) {
+		l.readChar()
+	}
+	return l.input[pos:l.position]
+}
+
+// check if it a character
+func isLetter(ch byte) bool {
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && 'Z' >= ch || ch == '_'
+}
+
+// make a token
 func newToken(tokenType token.TokenType, ch byte) token.Token {
 	return token.Token{Type: tokenType, Literal: string(ch)}
 

@@ -10,7 +10,6 @@ func main() {
 	cal := lexer.New(input)
 
 	fmt.Println(cal.NextToken())
-	cal.NextToken()
 	fmt.Println(cal.NextToken())
 
 }
