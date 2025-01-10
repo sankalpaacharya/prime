@@ -44,10 +44,10 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.MINUS, '-')
 
 	case '*':
-		tok = newToken(token.MULTIPLY, '*')
+		tok = newToken(token.ASTERISK, '*')
 
 	case '/':
-		tok = newToken(token.DIVISION, '/')
+		tok = newToken(token.SLASH, '/')
 
 	case ')':
 		tok = newToken(token.RPAREN, ')')

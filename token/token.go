@@ -19,8 +19,11 @@ const (
 	ASSIGN   = "="
 	PLUS     = "+"
 	MINUS    = "-"
-	MULTIPLY = "*"
-	DIVISION = "/"
+	ASTERISK = "*"
+	SLASH    = "/"
+
+	LT = "<"
+	GT = ">"
 
 	LPAREN = "("
 	RPAREN = ")"
@@ -32,6 +35,21 @@ const (
 	SEMICOLON = ";"
 
 	// Keywords
-	FUNCTION = "function"
-	LET      = "let"
+	FUNCTION = "FUNCTION"
+	LET      = "LET"
+	IF       = "IF"
+	ELSE     = "ELSE"
+	RETURN   = "RETURN"
+	TRUE     = "TRUE"
+	FALSE    = "FALSE"
 )
+
+var keywords = map[string]TokenType{
+	"function": FUNCTION,
+	"let":      LET,
+	"if":       IF,
+	"else":     ELSE,
+	"true":     TRUE,
+	"FALSE":    FALSE,
+	"RETURN":   RETURN,
+}
