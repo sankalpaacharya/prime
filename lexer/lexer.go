@@ -31,6 +31,7 @@ func New(input string) *Lexer {
 
 func (l *Lexer) NextToken() token.Token {
 	var tok token.Token
+	l.skipWhiteSpace()
 
 	switch l.char {
 
@@ -72,24 +73,44 @@ func (l *Lexer) NextToken() token.Token {
 	default:
 		if isLetter(l.char) {
 			tok.Literal = l.readIdentifier()
+			tok.Type = LookUpIdent(tok.Literal)
+			return tok
+		} else if isDigit(l.char) {
+			tok.Literal = l.readNumber()
+			tok.Type = token.INT
 			return tok
 		} else {
 			tok = newToken(token.ILLEGAL, l.char)
 		}
-
 	}
 
 	l.readChar()
 	return tok
-
 }
 
+// read the identifier
 func (l *Lexer) readIdentifier() string {
 	pos := l.position
 	for isLetter(l.char) {
 		l.readChar()
 	}
 	return l.input[pos:l.position]
+}
+func isDigit(ch byte) bool {
+	return ch >= '0' && ch <= '9'
+}
+func (l *Lexer) readNumber() string {
+	pos := l.position
+	for isDigit(l.char) {
+		l.readChar()
+	}
+	return l.input[pos:l.position]
+}
+
+func (l *Lexer) skipWhiteSpace() {
+	for l.char == ' ' || l.char == '\t' || l.char == '\n' || l.char == '\r' {
+		l.readChar()
+	}
 }
 
 // check if it a character
@@ -100,5 +121,11 @@ func isLetter(ch byte) bool {
 // make a token
 func newToken(tokenType token.TokenType, ch byte) token.Token {
 	return token.Token{Type: tokenType, Literal: string(ch)}
+}
 
+func LookUpIdent(iden string) token.TokenType {
+	if ident, ok := token.Keywords[iden]; ok {
+		return ident
+	}
+	return token.IDENT
 }

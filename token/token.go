@@ -44,7 +44,7 @@ const (
 	FALSE    = "FALSE"
 )
 
-var keywords = map[string]TokenType{
+var Keywords = map[string]TokenType{
 	"function": FUNCTION,
 	"let":      LET,
 	"if":       IF,
