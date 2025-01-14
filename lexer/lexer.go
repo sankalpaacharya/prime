@@ -22,6 +22,14 @@ func (l *Lexer) readChar() {
 	l.nextPosition += 1
 }
 
+func (l *Lexer) peekChar() byte {
+	if l.nextPosition >= len(l.input) {
+		return 0
+	} else {
+		return l.input[l.nextPosition]
+	}
+}
+
 // just to initialize Lexer struct
 func New(input string) *Lexer {
 	l := &Lexer{input: input}
@@ -36,7 +44,12 @@ func (l *Lexer) NextToken() token.Token {
 	switch l.char {
 
 	case '=':
-		tok = newToken(token.ASSIGN, '=')
+		if l.peekChar() == '=' {
+			l.readChar()
+			tok = token.Token{Type: token.EQ, Literal: "=="}
+		} else {
+			tok = newToken(token.ASSIGN, '=')
+		}
 
 	case '+':
 		tok = newToken(token.PLUS, '+')
@@ -68,7 +81,12 @@ func (l *Lexer) NextToken() token.Token {
 	case ',':
 		tok = newToken(token.COMMA, ',')
 	case '!':
-		tok = newToken(token.BANG, '!')
+		if l.peekChar() == '=' {
+			l.readChar()
+			tok = token.Token{Type: token.NOT_EQ, Literal: "!="}
+		} else {
+			tok = newToken(token.BANG, '!')
+		}
 	case '>':
 		tok = newToken(token.GT, '>')
 	case '<':
@@ -102,9 +120,11 @@ func (l *Lexer) readIdentifier() string {
 	}
 	return l.input[pos:l.position]
 }
+
 func isDigit(ch byte) bool {
 	return ch >= '0' && ch <= '9'
 }
+
 func (l *Lexer) readNumber() string {
 	pos := l.position
 	for isDigit(l.char) {

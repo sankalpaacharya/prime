@@ -23,8 +23,10 @@ const (
 	SLASH    = "/"
 	BANG     = "!"
 
-	LT = "<"
-	GT = ">"
+	LT     = "<"
+	GT     = ">"
+	EQ     = "=="
+	NOT_EQ = "!="
 
 	LPAREN = "("
 	RPAREN = ")"
